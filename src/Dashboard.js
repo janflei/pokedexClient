@@ -15,7 +15,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import TextField from '@material-ui/core/TextField';
 import { mainListItems, secondaryListItems } from './listItems';
 import axios from "axios";
-import SimpleTable from './SimpleTable';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
