@@ -21,6 +21,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import PokeTable from './PokeTable';
 
 const drawerWidth = 240;
 
@@ -135,13 +136,11 @@ class Dashboard extends React.Component {
         const pokemon = res.data;
         this.setState({pokemon: pokemon });
         this.setState({imageurl: pokemon.sprites["front_default"]});
-        console.log(pokemon.types);
         var str = pokemon.name;
         var n = str.toUpperCase();
         this.setState({name: n});
         this.setState({pokeb: true});
       })    
-      console.log('https://pokeapi.co/api/v2/pokemon/' + this.state.pokemonsearchname + '/')
   };
 
   componentDidMount() {
@@ -203,9 +202,6 @@ class Dashboard extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          {/*<Typography variant="h4" gutterBottom component="h2">
-            Products
-        </Typography>*/}
           <TextField
           id="filled-name"
           label="Search Pokemon by Name or Number"
@@ -222,42 +218,7 @@ class Dashboard extends React.Component {
           variant="filled"
         />
         {this.state.pokeb ?
-        <div style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}}>
-          <Paper className={classes.root} style={divStyle}>
-      <Table className={classes.table}>
-        <TableHead>
-        </TableHead>
-        <TableBody>
-            <TableRow>
-              <TableCell>Image: </TableCell>
-              <TableCell align={"center"}>
-                  <img src={this.state.imageurl} alt="new"/>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Name: </TableCell>
-              <TableCell align={"center"}>{this.state.name}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Base Experience: </TableCell>
-              <TableCell align={"center"}>{this.state.pokemon.base_experience}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Height: </TableCell>
-              <TableCell align={"center"}>{this.state.pokemon.height}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Order: </TableCell>
-              <TableCell align={"center"}>{this.state.pokemon.order}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Weight: </TableCell>
-              <TableCell align={"center"}>{this.state.pokemon.weight}</TableCell>
-            </TableRow>          
-        </TableBody>
-      </Table>
-    </Paper>
-    </div>
+        <PokeTable pokemon={this.state.pokemon} imageurl={this.state.imageurl} name={this.state.name}></PokeTable>
     : null }
         </main>
       </div>
