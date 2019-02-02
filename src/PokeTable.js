@@ -40,24 +40,28 @@ class PokeTable extends React.Component {
                   </TableRow>
                   <TableRow>
                     <TableCell>Name: </TableCell>
-                    <TableCell align={"center"}>{this.props.pokemon.name}</TableCell>
+                    <TableCell align={"center"}>{this.props.name}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Base Experience: </TableCell>
-                    <TableCell align={"center"}>{this.props.pokemon.base_experience}</TableCell>
+                    <TableCell align={"center"}>{this.props.baseexp}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Height: </TableCell>
-                    <TableCell align={"center"}>{this.props.pokemon.height}</TableCell>
+                    <TableCell align={"center"}>{this.props.height}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Order: </TableCell>
-                    <TableCell align={"center"}>{this.props.pokemon.order}</TableCell>
+                    <TableCell align={"center"}>{this.props.order}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Weight: </TableCell>
-                    <TableCell align={"center"}>{this.props.pokemon.weight}</TableCell>
-                  </TableRow>          
+                    <TableCell align={"center"}>{this.props.weight}</TableCell>
+                  </TableRow>  
+                  <TableRow>
+                    <TableCell>Types: </TableCell>
+                    <TableCell align={"center"}>{this.props.types.join(', ')}</TableCell>
+                  </TableRow>         
               </TableBody>
             </Table>
           </Paper>

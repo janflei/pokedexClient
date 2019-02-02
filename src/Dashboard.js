@@ -13,15 +13,14 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import TextField from '@material-ui/core/TextField';
-import { mainListItems, secondaryListItems } from './listItems';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import axios from "axios";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import PokeTable from './PokeTable';
+import HistoryTable from './HistoryTable';
 
 const drawerWidth = 240;
 
@@ -105,17 +104,24 @@ const styles = theme => ({
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+    this.handleClickHistory = this.handleClickHistory.bind(this)
+    this.handleClickPokedex = this.handleClickPokedex.bind(this)
 
     this.state = {
       open: true,
-      pokemon: [],
       pokemonsearchname: "",
-      imageurl: "",
       name: "",
-      pokeb: false,
+      types: [],
+      imageurl: "",
+      baseexp: "",
+      order: "",
+      weight: "",
+      showpoketable: false,
+      showPokeResult: true,
+      history: [],
     };
-   }
-  
+  }
+
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -124,24 +130,51 @@ class Dashboard extends React.Component {
     this.setState({ open: false });
   };
 
-  handleChange  = (event) => {
+  handleChange = (event) => {
     var str = event.target.value;
     var res = str.toLowerCase();
-      this.setState({pokemonsearchname: res});
+    this.setState({ pokemonsearchname: res });
   };
 
   handleSubmit = (event) => {
-      axios.get('https://pokeapi.co/api/v2/pokemon/' + this.state.pokemonsearchname + '/')
+    axios.get('https://mega-pokedex.herokuapp.com/pokemon?token=' + this.state.pokemonsearchname)
       .then(res => {
         const pokemon = res.data;
-        this.setState({pokemon: pokemon });
-        this.setState({imageurl: pokemon.sprites["front_default"]});
+
         var str = pokemon.name;
         var n = str.toUpperCase();
-        this.setState({name: n});
-        this.setState({pokeb: true});
-      })    
+        this.setState({ name: n });
+
+        this.setState({ types: pokemon.types });
+        this.setState({ imageurl: pokemon.imageurl });
+        this.setState({ baseexp: pokemon.baseexp });
+        this.setState({ height: pokemon.height });
+        this.setState({ order: pokemon.order });
+        this.setState({ weight: pokemon.weight });
+
+        this.setState({ showPokeResult: true });
+        this.setState({ showpoketable: true });
+        console.log(pokemon);
+      })
   };
+
+  getHistory = (event) => {
+    axios.get('https://mega-pokedex.herokuapp.com/history')
+      .then(res => {
+        const history = res.data;
+        this.setState({ history: history });
+        console.log(history);
+      })
+  };
+
+  handleClickPokedex = () => {
+    this.setState({ showPokeResult: true });
+  }
+
+  handleClickHistory = () => {
+    this.setState({ showPokeResult: false });
+    this.getHistory();
+  }
 
   componentDidMount() {
     console.log('Test');
@@ -149,9 +182,6 @@ class Dashboard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    var divStyle = {
-      width: '50%',
-    };
 
     return (
       <div className={classes.root}>
@@ -196,30 +226,55 @@ class Dashboard extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          <List>{mainListItems}</List>
+          <List>
+            <ListItem button onClick={this.handleClickPokedex}>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Pokedex" />
+            </ListItem>
+            <ListItem button onClick={this.handleClickHistory}>
+              <ListItemIcon>
+                <BarChartIcon />
+              </ListItemIcon>
+              <ListItemText primary="History" />
+            </ListItem>
+          </List>
           <Divider />
-          <List>{secondaryListItems}</List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <TextField
-          id="filled-name"
-          label="Search Pokemon by Name or Number"
-          className={classes.textField}
-          value={this.state.pokemonsearchname}
-          onChange={this.handleChange}
-          fullWidth
-          onKeyPress={event => {
-            if (event.key === 'Enter') {
-              this.handleSubmit()
-            }
-          }}
-          margin="normal"
-          variant="filled"
-        />
-        {this.state.pokeb ?
-        <PokeTable pokemon={this.state.pokemon} imageurl={this.state.imageurl} name={this.state.name}></PokeTable>
-    : null }
+            id="filled-name"
+            label="Search Pokemon by Name or Number"
+            className={classes.textField}
+            value={this.state.pokemonsearchname}
+            onChange={this.handleChange}
+            fullWidth
+            onKeyPress={event => {
+              if (event.key === 'Enter') {
+                this.handleSubmit()
+              }
+            }}
+            margin="normal"
+            variant="filled"
+          />
+          {this.state.showPokeResult ?
+            <div>
+              {this.state.showpoketable ?
+                <PokeTable
+                  name={this.state.name}
+                  types={this.state.types}
+                  imageurl={this.state.imageurl}
+                  baseexp={this.state.baseexp}
+                  height={this.state.height}
+                  order={this.state.order}
+                  weight={this.state.weight}
+                >
+                </PokeTable>
+                : null}
+            </div>
+            : <HistoryTable history={this.state.history}></HistoryTable>}
         </main>
       </div>
     );
