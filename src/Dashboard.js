@@ -227,13 +227,13 @@ class Dashboard extends React.Component {
           </div>
           <Divider />
           <List>
-            <ListItem button onClick={this.handleClickPokedex}>
+            <ListItem button onClick={this.handleClickPokedex} id={"pokedexSearch"}>
               <ListItemIcon>
                 <DashboardIcon />
               </ListItemIcon>
               <ListItemText primary="Pokedex" />
             </ListItem>
-            <ListItem button onClick={this.handleClickHistory}>
+            <ListItem button onClick={this.handleClickHistory} id={"history"}>
               <ListItemIcon>
                 <BarChartIcon />
               </ListItemIcon>

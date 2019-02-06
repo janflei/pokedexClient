@@ -28,7 +28,7 @@ class PokeTable extends React.Component {
    return (
     <div style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}}>
           <Paper className={classes.root} style={divStyle}>
-            <Table className={classes.table}>
+            <Table className={classes.table} id={"pokeTable"}>
               <TableHead>
               </TableHead>
               <TableBody>
@@ -40,7 +40,7 @@ class PokeTable extends React.Component {
                   </TableRow>
                   <TableRow>
                     <TableCell>Name: </TableCell>
-                    <TableCell align={"center"}>{this.props.name}</TableCell>
+                    <TableCell align={"center"} id={"pokename"}>{this.props.name}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Base Experience: </TableCell>

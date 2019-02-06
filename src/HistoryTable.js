@@ -31,7 +31,7 @@ class HistoryTable extends React.Component {
                     <TableCell align={"center"}>
                         <img src={history.imageurl} alt="new" />
                     </TableCell>
-                    <TableCell align={"center"}>{history.name.toUpperCase()}</TableCell>
+                    <TableCell align={"center"} id={"histoPoke" + index}>{history.name.toUpperCase()}</TableCell>
                 </TableRow>
             );
         }
@@ -42,7 +42,7 @@ class HistoryTable extends React.Component {
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <h3 style={{ color: 'gray', align: 'center' }}>{"History"}</h3>
                     </div>
-                <Table className={classes.table}>
+                <Table className={classes.table} id={"historyTable"}>
                     <TableHead>
                         <TableCell align={"center"}>{"Image"}</TableCell>
                         <TableCell align={"center"}>{"Name"}</TableCell>
